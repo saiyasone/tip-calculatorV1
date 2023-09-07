@@ -16,17 +16,30 @@ export class AppComponent {
   fBill = new FormControl('', [Validators.required]);
   fPerson = new FormControl('', [Validators.required]);
 
+  get isBill(): boolean {
+    return this.fBill.errors?.['required'] || false;
+  }
+
   setTip(data: number) {
     if (this.fBill.invalid) {
       return this.fBill.markAllAsTouched();
     }
 
     this.tip = data;
+    this.onCalculate();
   }
 
   onCalculate() {
     if (this.fBill.invalid) {
       return this.fBill.markAllAsTouched();
+    }
+
+    if (this.fPerson.invalid) {
+      return this.fPerson.markAllAsTouched();
+    }
+
+    if (!this.fPerson.value) {
+      return this.fPerson.markAllAsTouched();
     }
 
     let sum = 0;
